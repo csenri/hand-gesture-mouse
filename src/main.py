@@ -12,9 +12,12 @@ import pyautogui
 
 import gestures
 import utils
+import sys
+sys.path.insert(0, '..')
+from config import config
 
 # path to the model that we are using
-model_path = r'C:\Users\Enrico\Desktop\personal projects\hand mouse\models\hand_landmarker.task'
+model_path = r'../models/hand_landmarker.task'
 # declare the model that we are using
 base_options = python.BaseOptions(model_asset_path=model_path)
 # options to apply for model
@@ -23,27 +26,27 @@ options = vision.HandLandmarkerOptions(base_options=base_options, num_hands=1)
 detector = vision.HandLandmarker.create_from_options(options)
 
 # to capture the video from the camera
-cap = cv2.VideoCapture(1, cv2.CAP_DSHOW) 
+cap = cv2.VideoCapture(config.CAMERA_INDEX, cv2.CAP_DSHOW) 
 
 # setting of framerate
-target_fps = 30
+target_fps = config.TARGET_FPS
 time_between_frames = 1.0 / target_fps
 prev_time = 0 
 
 # seconds of History 
-seconds_to_save = 1
-buffer_size = int(seconds_to_save * target_fps)
+seconds_to_save = config.SECONDS_TO_SAVE
+buffer_size = int(seconds_to_save * config.TARGET_FPS)
 landmark_history = deque(maxlen=buffer_size)
 
 # --- TIMERS AND COOLDOWNS ---
-gesture_cooldown = 0.1
+gesture_cooldown = config.GESTURE_COOLDOWN
 last_move_time = 0
 
 # --- RELATIVE MOUSE MOVEMENT SETUP ---
 # Variable to store the hand's position in the previous frame
 prev_hand_pos = None
 # Multiplier to adjust the cursor speed (1.0 is default, higher is faster)
-mouse_sensitivity = 1.5 
+mouse_sensitivity = config.MOUSE_SENSITIVITY 
 
 pyautogui.FAILSAFE = False 
 screen_width, screen_height = pyautogui.size()
