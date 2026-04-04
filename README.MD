@@ -1,6 +1,5 @@
-======================================================================
+
                 🖐️  HAND GESTURE MOUSE CONTROLLER  🖐️
-======================================================================
 
 A Python-based application that allows you to control your computer's mouse
 using intuitive hand gestures via your webcam. Powered by Google MediaPipe
@@ -33,15 +32,24 @@ Python 3.9+ installed. Run the following command:
 2. Create a folder named 'models' in your project root.
 3. Place the downloaded .task file inside the 'models' folder.
 
-📂 PROJECT STRUCTURE
+## 📂 Project Structure
+
+```text
+├── assets/
+│   └── structure points.png      # Reference images and visual assets
+├── config/
+│   └── config.py                 # Configuration and gesture bindings
+├── docs/
+│   └── instructions.md           # Additional project documentation
 ├── models/
-│   └── hand_landmarker.task      # Downloaded MediaPipe model
+│   └── hand_landmarker.task      # Download Mediapipe model
 ├── src/
 │   ├── main.py                   # Main execution loop
-│   ├── config.py                 # Configuration and gesture bindings
-│   ├── gestures.py               # Math and logic for gestures
-│   └── utils.py                  # Drawing utilities
-└── README.md
+│   ├── gestures.py               # Math and logic for gesture detection
+│   └── utils.py                  # Drawing utilities for visualization
+├── README.MD                     # Main project documentation
+└── requirements.txt              # Python dependencies list
+```
 
 🚀 HOW TO RUN
 1. Clone this repository.
