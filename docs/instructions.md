@@ -1,29 +1,42 @@
-# Hand Gesture Mouse - Control Guide
+======================================================================
+                    HAND GESTURE MOUSE - USER GUIDE   
+======================================================================
 
-## Gestures
+⚡ QUICK REFERENCE
+Action           | Gesture (Pinch)        | Description
+----------------------------------------------------------------------
+Move Mouse       | Thumb + Middle         | Pinch and move your hand
+Left Click       | Thumb + Index          | Quick pinch and release
+Double Click     | Thumb + Index (x2)     | Two quick pinches in a row
+Right Click      | Thumb + Pinky          | Quick pinch and release
+Scroll           | Thumb + Ring           | Pinch and move hand up/down
+Drag & Drop      | Thumb + Index + Ring   | Pinch, hold, and move
 
-| Gesture | Fingers | Action |
-|---------|---------|--------|
-| Thumb + Middle | Pinch | Move mouse |
-| Thumb + Index | Pinch | Left click |
-| Thumb + Index x2 | Quick pinch twice | Double click |
-| Thumb + Ring | Pinch | Right click |
 
-## How to Use
+🖐️  HOW TO USE
+For the camera to read your gestures accurately, make sure to keep the fingers
+you are NOT using open and away from your palm.
 
-1. **Mouse Movement** 🖱️
-   - Pinch your **thumb and middle finger** together
-   - The center point between your thumb and middle finger controls the cursor position
+1. Mouse Movement 🖱️
+   Gesture: Pinch your Thumb and Middle finger together.
+   Action: The cursor will follow your hand smoothly.
 
-2. **Single Click** 🖱️
-   - Pinch your **thumb and index finger** together (keep middle, ring, and pinky fingers open)
-   - Hold the pinch briefly
+2. Clicks (Left, Right & Double) 🖱️
+   Gesture: Quickly pinch the target fingers and release.
+   Action: Keep your other fingers straight to avoid confusing the camera.
 
-3. **Double Click** 🖱️
-   - Perform two **single clicks in quick succession** (within 0.9 seconds)
-   - The code detects when you make the thumb-index pinch gesture twice quickly
+3. Scroll 📜
+   Gesture: Pinch your Thumb and Ring finger together.
+   Action: While holding the pinch, move your hand up or down.
 
-4. **Right Click** 🖱️
-   - Pinch your **thumb and ring finger** together (keep index, middle, and pinky open)
+4. Drag & Drop ✋
+   Gesture: Pinch your Thumb, Index and Ring finger together and HOLD it.
+   Action: Hover over an item, pinch to grab, move your hand to drag,
+           and release your fingers to drop it.
 
-**Tip**: You don't need to pinch too hard—just close each pair of fingers together!
+💡 PRO TIPS
+   * Lighting matters: Ensure your room is well-lit.
+   * Be deliberate: You don't need to press hard, just make sure fingers touch.
+   * Relaxed posture: Keep your hand comfortably facing the camera.
+
+======================================================================

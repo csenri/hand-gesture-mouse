@@ -1,6 +1,0 @@
-When I check for movements what should I consider?
-
-TO DO:
-implement click DONE 
-implement doubleclick DONE
-implement movement of mouse - DONE

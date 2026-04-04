@@ -1,20 +1,49 @@
 # Configuration file for hand gesture mouse application
 
-# Camera index: 0 for primary camera, 1 for secondary camera (ENRI you can put 1 since you have external camera)
-# Change this based on which camera you want to use
-CAMERA_INDEX = 0
+# --- CAMERA & TARGET SETUP ---
+# Camera index: 0 for primary camera, 1 for secondary camera
+CAMERA_INDEX = 1
+TARGET_HAND = "Right"
 
-# Mouse sensitivity multiplier (1.0 is default, higher is faster)
-MOUSE_SENSITIVITY = 1.5
-
-# Target frames per second (60 for smooth movement, 30 for lower power)
-TARGET_FPS = 60
-
-# Gesture history buffer duration (in seconds)
+# --- PERFORMANCE ---
+# Target frames per second
+TARGET_FPS = 30
 SECONDS_TO_SAVE = 1
+SHOW_VISUALIZATION = True
 
-# Click cooldown in seconds (prevents accidental double triggers)
+# --- GESTURE THRESHOLDS ---
+MULTIPLIER_DISTANCE = 0.3
 CLICK_COOLDOWN = 0.05
 
-# Show visualization (True for debugging, False for better performance)
-SHOW_VISUALIZATION = False
+# --- MOUSE MOVEMENT & SMOOTHING ---
+MOUSE_SENSITIVITY = 1.5
+SMOOTH_TIME = 0.25      # LERP smoothing (lower is smoother but slower)
+DEADZONE = 1.0          # Deadzone in pixels to prevent jitter
+SCROLL_SENSITIVITY = 3000
+
+# --- DRAG SETTINGS ---
+DRAG_ACTIVATION_FRAMES = 4
+
+# --- GESTURES DEFINITION ---
+GESTURES = {
+    "left_click": {
+        "touching": ["thumb", "index"],
+        "away": ["all_others"]
+    },
+    "right_click": {
+        "touching": ["thumb", "pinky"],
+        "away": ["all_others"]
+    },
+    "mouse_move": {
+        "touching": ["thumb", "middle"],
+        "away": ["all_others"] 
+    },
+    "scroll": {
+        "touching": ["thumb", "ring"],
+        "away": ["all_others"]
+    },
+    "drag": {
+        "touching": ["thumb", "ring", "middle"],
+        "away": ["all_others"]
+    }
+}
