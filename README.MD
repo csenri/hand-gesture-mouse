@@ -4,7 +4,7 @@
 A Python-based application that allows you to control your computer's mouse
 using intuitive hand gestures via your webcam. Powered by Google MediaPipe
 (Tasks API) for real-time hand tracking and PyAutoGUI for system-level mouse control.
-<video src="assets/demo.mp4" width="100%" autoplay loop muted playsinline></video>
+<video src="assets/Demo.mp4" width="100%" autoplay loop muted playsinline></video>
 ✨ FEATURES
  * Absolute Smoothness: Uses LERP and dynamic deadzones to eliminate jitter.
  * Modular Configuration: Tweak sensitivities and bindings in config.py.
