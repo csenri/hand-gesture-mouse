@@ -4,7 +4,7 @@
 A Python-based application that allows you to control your computer's mouse
 using intuitive hand gestures via your webcam. Powered by Google MediaPipe
 (Tasks API) for real-time hand tracking and PyAutoGUI for system-level mouse control.
-<video src="assets/Demo.mp4" width="100%" autoplay loop muted playsinline></video>
+[![Watch the demo](https://img.youtube.com/vi/ZDoPixLZlwM/maxresdefault.jpg)](https://www.youtube.com/watch?v=ZDoPixLZlwM)
 ✨ FEATURES
  * Absolute Smoothness: Uses LERP and dynamic deadzones to eliminate jitter.
  * Modular Configuration: Tweak sensitivities and bindings in config.py.
@@ -25,7 +25,7 @@ Drag & Drop      | Thumb + Index + Ring   | Pinch, hold, and move
 
 🛠️ PREREQUISITES
 Python 3.9+ installed. Run the following command:
-   pip install opencv-python mediapipe numpy pyautogui
+   pip install .\requirements.txt
 
 📦 MEDIAPIPE MODEL
 1. Download the hand_landmarker.task file from official MediaPipe docs.
@@ -54,7 +54,10 @@ Python 3.9+ installed. Run the following command:
 🚀 HOW TO RUN
 1. Clone this repository.
 2. Ensure your webcam is connected.
-3. Run the main script:
+4. Download Mediapipe Model
+4. Run the following command:
+   pip install .\requirements.txt
+5. Run the main script:
    python src/main.py
 Press q in the camera window to safely quit the application.
 

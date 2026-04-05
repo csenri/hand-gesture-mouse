@@ -5,6 +5,9 @@ import numpy as np
 import time
 import math
 from collections import deque
+import threading
+import queue
+from threading import Lock, Event
 import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
@@ -18,11 +21,10 @@ import sys
 sys.path.insert(0, '..')
 from config import config
 
-# --- MEDIAPIPE SETUP ---
+# --- MEDIAPIPE SETUP (MODEL PATH ONLY) ---
 model_path = r'../models/hand_landmarker.task'
 base_options = python.BaseOptions(model_asset_path=model_path)
 options = vision.HandLandmarkerOptions(base_options=base_options, num_hands=1)
-detector = vision.HandLandmarker.create_from_options(options)
 
 # --- CAMERA SETUP ---
 cap = cv2.VideoCapture(config.CAMERA_INDEX, cv2.CAP_DSHOW) 
@@ -56,6 +58,39 @@ drag_prev_x, drag_prev_y = None, None
 def lerp(a, b, t):
     return a + (b - a) * t
 
+# --- BACKGROUND MEDIAPIPE DETECTION THREAD ---
+frame_queue = queue.Queue(maxsize=2)      # Latest frames to detect (drops old frames)
+detection_queue = queue.Queue(maxsize=1)  # Latest detection results
+stop_detection_event = Event()             # Signal to stop detection thread
+detection_lock = Lock()                    # Thread-safe access to detection
+
+def mediapipe_worker():
+    """Background thread that continuously runs MediaPipe detection"""
+    detector = vision.HandLandmarker.create_from_options(options)
+    
+    while not stop_detection_event.is_set():
+        try:
+            # Wait for a frame to process (timeout prevents blocking on exit)
+            frame = frame_queue.get(timeout=0.1)
+            
+            # Run MediaPipe detection
+            rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb_frame)
+            detection_result = detector.detect(mp_image)
+            
+            # Store result (non-blocking, overwrites old detections)
+            try:
+                detection_queue.put_nowait(detection_result)
+            except queue.Full:
+                pass  # Drop old detection if queue is full
+                
+        except queue.Empty:
+            continue
+
+# Start background detection thread as daemon
+detection_thread = threading.Thread(target=mediapipe_worker, daemon=True)
+detection_thread.start()
+
 # --- MAIN LOOP ---
 while cap.isOpened():
     ret, frame = cap.read() 
@@ -67,12 +102,21 @@ while cap.isOpened():
     if (current_time - prev_time) > time_between_frames:
         prev_time = current_time 
 
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb_frame)
+        # Send frame to detection thread (non-blocking)
+        try:
+            frame_queue.put_nowait(frame)
+        except queue.Full:
+            pass  # Skip if detector is still busy
+        
+        # Get latest detection result (non-blocking, use previous if none available)
+        detection_result = None
+        try:
+            while True:
+                detection_result = detection_queue.get_nowait()
+        except queue.Empty:
+            pass  # Use previous detection result if none available yet
 
-        detection_result = detector.detect(mp_image)
-
-        if detection_result.hand_landmarks:
+        if detection_result and detection_result.hand_landmarks:
             valid_hand_found = False
             
             for idx in range(len(detection_result.hand_landmarks)):
@@ -225,14 +269,20 @@ while cap.isOpened():
         
         if config.SHOW_VISUALIZATION:
             try:
+                # Recreate mp_image for visualization only
+                rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb_frame)
                 annotated_image = utils.draw_landmarks_on_image(mp_image.numpy_view(), detection_result)
                 bgr_annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_RGB2BGR)
                 cv2.imshow('frame', bgr_annotated_image)
-            except NameError:
+            except (NameError, AttributeError, TypeError):
                 cv2.imshow('frame', frame)
             
     if cv2.waitKey(1) == ord('q'):
         break
 
+# --- CLEANUP ---
+stop_detection_event.set()  # Signal detection thread to stop
+detection_thread.join(timeout=2)  # Wait for thread to finish
 cap.release()
 cv2.destroyAllWindows()

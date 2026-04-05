@@ -2,7 +2,7 @@
 
 # --- CAMERA & TARGET SETUP ---
 # Camera index: 0 for primary camera, 1 for secondary camera
-CAMERA_INDEX = 1
+CAMERA_INDEX = 0
 TARGET_HAND = "Right"
 
 # --- PERFORMANCE ---
